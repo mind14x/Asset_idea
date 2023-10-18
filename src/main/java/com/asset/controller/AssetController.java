@@ -38,6 +38,7 @@ public class AssetController {
             @RequestParam(required = false) String user,         // <-- 新增
             @RequestParam(required = false) String remark) {     // <-- 新增
         AssetPageDTO assets = assetService.listAssets(page, size, assetCode, category, serialNumber, department, user, remark);
+        System.out.println(1);
         return ResponseEntity.ok(assets);
     }
 
@@ -129,7 +130,7 @@ public class AssetController {
         System.out.println(userName);
         // 检查用户是否存在及其状态
         if (!userService.isUserActive(userName)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // 返回403 Forbidden或其他适当的状态ssss
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // 返回403 Forbidden或其他适当的状态ssssss
 
 
         }
