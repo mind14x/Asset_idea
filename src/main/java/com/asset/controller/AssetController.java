@@ -40,6 +40,7 @@ public class AssetController {
         AssetPageDTO assets = assetService.listAssets(page, size, assetCode, category, serialNumber, department, user, remark);
         System.out.println(1);
         System.out.println(2);
+        System.out.println("3333_features");
         return ResponseEntity.ok(assets);
     }
 
