@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.asset.mapper.LogRecordMapper">
+    <insert id="insertLogRecord" parameterType="com.asset.model.LogRecord">
+        INSERT INTO LogRecord (OperationType, OperationUser, OperationDate, OperationDetail)
+        VALUES (#{operationType}, #{operationUser}, #{operationDate}, #{operationDetail})
+    </insert>
+
+
+    <!-- 修改查询语句 -->
+    <select id="findAll" resultType="com.asset.model.LogRecord" parameterType="map">
+        SELECT * FROM LogRecord
+        WHERE
+            (OperationType LIKE CONCAT('%', #{operationType}, '%') OR #{operationType} IS NULL)
+          AND (OperationUser LIKE CONCAT('%', #{operationUser}, '%') OR #{operationUser} IS NULL)
+          AND (OperationDate BETWEEN #{startDate} AND #{endDate} OR (#{startDate} IS NULL AND #{endDate} IS NULL))
+        ORDER BY OperationDate DESC
+            LIMIT #{offset}, #{size}
+    </select>
+
+    <!-- 修改计数语句 -->
+    <select id="countAll" resultType="int">
+        SELECT COUNT(*) FROM LogRecord
+        WHERE
+            (OperationType LIKE CONCAT('%', #{operationType}, '%') OR #{operationType} IS NULL)
+          AND (OperationUser LIKE CONCAT('%', #{operationUser}, '%') OR #{operationUser} IS NULL)
+          AND (OperationDate BETWEEN #{startDate} AND #{endDate} OR (#{startDate} IS NULL AND #{endDate} IS NULL))
+    </select>
+
+
+</mapper>

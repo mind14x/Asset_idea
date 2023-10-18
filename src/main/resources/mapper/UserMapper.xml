@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.asset.mapper.UserMapper">
+
+    <!-- User Table Mapping -->
+    <resultMap id="userResultMap" type="com.asset.model.User">
+        <id column="UserID" property="userId"/>
+        <result column="Username" property="username"/>
+        <result column="Password" property="password"/>
+        <result column="Role" property="role"/>
+        <result column="Status" property="status"/>
+    </resultMap>
+
+    <!-- Find user by username and password -->
+    <select id="findByUsernameAndPassword" resultMap="userResultMap">
+        SELECT * FROM Users WHERE Username = #{username} AND Password = #{password}
+    </select>
+
+    <insert id="insertUser" parameterType="com.asset.model.User">
+        INSERT INTO Users (Username, Password, Role, Status)
+        VALUES (#{username}, #{password}, #{role}, #{status})
+    </insert>
+
+    <select id="getAllUsers" resultType="com.asset.model.User">
+        SELECT * FROM Users
+    </select>
+
+    <update id="updateUser" parameterType="com.asset.model.User">
+        UPDATE Users
+        <set>
+            <if test="username != null and username != ''">
+                Username = #{username},
+            </if>
+            <if test="password != null and password != ''">
+                Password = #{password},
+            </if>
+            <if test="role != null and role != ''">
+                Role = #{role},
+            </if>
+            <if test="status != null and status != ''">
+                Status = #{status},
+            </if>
+        </set>
+        WHERE UserID = #{userId}
+    </update>
+
+    <delete id="deleteUser" parameterType="int">
+        DELETE FROM Users WHERE UserID = #{userId}
+    </delete>
+
+    <select id="getUserByUsername" resultType="com.asset.model.User">
+        SELECT * FROM Users WHERE Username = #{username}
+    </select>
+
+</mapper>

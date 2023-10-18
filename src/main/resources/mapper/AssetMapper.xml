@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.asset.mapper.AssetMapper">
+
+    <!-- 根据起始点和大小及其他筛选条件查询资产数据 -->
+    <!-- 获取资产列表 -->
+    <select id="listAssets" resultType="com.asset.model.Asset">
+        SELECT * FROM Assets
+        WHERE (assetCode LIKE CONCAT('%', #{assetCode}, '%') OR #{assetCode} IS NULL)   <!-- 修改 -->
+        AND (category LIKE CONCAT('%', #{category}, '%') OR #{category} IS NULL)       <!-- 修改 -->
+        AND (serialNumber LIKE CONCAT('%', #{serialNumber}, '%') OR #{serialNumber} IS NULL) <!-- 修改 -->
+        AND (department LIKE CONCAT('%', #{department}, '%') OR #{department} IS NULL) <!-- 修改 -->
+        AND (user LIKE CONCAT('%', #{user}, '%') OR #{user} IS NULL)                   <!-- 修改 -->
+        AND (remark LIKE CONCAT('%', #{remark}, '%') OR #{remark} IS NULL)             <!-- 修改 -->
+        ORDER BY EntryDate DESC
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <!-- 根据筛选条件获取资产总数 -->
+    <select id="countAssetsWithFilters" resultType="int">
+        SELECT COUNT(*) FROM Assets
+        WHERE (assetCode LIKE CONCAT('%', #{assetCode}, '%') OR #{assetCode} IS NULL)
+          AND (category LIKE CONCAT('%', #{category}, '%') OR #{category} IS NULL)
+          AND (serialNumber LIKE CONCAT('%', #{serialNumber}, '%') OR #{serialNumber} IS NULL)
+          AND (department LIKE CONCAT('%', #{department}, '%') OR #{department} IS NULL)
+          AND (user LIKE CONCAT('%', #{user}, '%') OR #{user} IS NULL)
+          AND (remark LIKE CONCAT('%', #{remark}, '%') OR #{remark} IS NULL)
+    </select>
+
+
+    <select id="findById" resultType="com.asset.model.Asset">
+        SELECT * FROM Assets WHERE ID = #{assetId}
+    </select>
+
+    <update id="update">
+        UPDATE Assets
+        <set>
+            <if test="affiliation != null">Affiliation = #{affiliation},</if>
+            <if test="category != null">Category = #{category},</if>
+            <if test="assetCode != null">AssetCode = #{assetCode},</if>
+            <if test="status != null">Status = #{status},</if>
+            <if test="brand != null">Brand = #{brand},</if>
+            <if test="model != null">Model = #{model},</if>
+            <if test="serialNumber != null">SerialNumber = #{serialNumber},</if>
+            <if test="department != null">Department = #{department},</if>
+            <if test="user != null">User = #{user},</if>
+            <if test="entryDate != null">EntryDate = #{entryDate},</if>
+            <if test="computerName != null">ComputerName = #{computerName},</if>
+            <if test="systemConfig != null">SystemConfig = #{systemConfig},</if>
+            <if test="remark != null">Remark = #{remark},</if>
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+
+    <insert id="insertAsset" parameterType="com.asset.model.Asset">
+        INSERT INTO Assets (Affiliation, Category, AssetCode, Status, Brand, Model, SerialNumber, Department, User, EntryDate, ComputerName, SystemConfig, Remark)
+        VALUES (#{affiliation}, #{category}, #{assetCode}, #{status}, #{brand}, #{model}, #{serialNumber}, #{department}, #{user}, #{entryDate}, #{computerName}, #{systemConfig}, #{remark})
+    </insert>
+
+
+    <delete id="deleteAssetById" parameterType="java.lang.Long">
+        DELETE FROM Assets WHERE ID = #{assetId}
+    </delete>
+
+
+
+    <select id="findAllAssets" resultType="com.asset.model.Asset">
+        SELECT * FROM Assets ORDER BY EntryDate ASC;
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

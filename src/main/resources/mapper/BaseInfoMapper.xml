@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.asset.mapper.BaseInfoMapper">
+
+    <resultMap id="DepartmentResultMap" type="com.asset.model.Department">
+        <id column="id" property="id"/>
+        <result column="department_name" property="departmentName"/>
+    </resultMap>
+
+    <resultMap id="BrandResultMap" type="com.asset.model.Brand">
+        <id column="id" property="id"/>
+        <result column="brand_name" property="brandName"/>
+    </resultMap>
+
+    <resultMap id="AssetCategoryResultMap" type="com.asset.model.AssetCategory">
+        <id column="id" property="id"/>
+        <result column="category_name" property="categoryName"/>
+    </resultMap>
+
+    <select id="findAllDepartments" resultMap="DepartmentResultMap">
+        SELECT * FROM departments ORDER BY CONVERT(department_name USING gbk);
+    </select>
+
+    <select id="findAllBrands" resultMap="BrandResultMap">
+        SELECT * FROM brands;
+    </select>
+
+    <select id="findAllAssetCategories" resultMap="AssetCategoryResultMap">
+        SELECT * FROM asset_categories;
+    </select>
+
+</mapper>
+
